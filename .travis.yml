@@ -1,0 +1,17 @@
+sudo : required
+services: 
+  - docker
+
+before_install:
+  - docker build -t raghav108/docker-react -f Dockerfile.dev .
+
+#The script section is supposed to contain all the different commands that need to be executed
+#to actually run our test suite.
+#So these are gonna be a series of commands just like before install was that are going to be ran
+#when our tests need to actually be executed.
+#Travis CI is going to be watching the output of each of these commands,
+#and from each command, if it ever gets a return status code other than zero
+#Travis is going to assume that our build failed or that our test suite failed to run properly
+#and it's going to assume that our code is essentially broken.
+script:
+  - docker run  -e CI=true raghav108/docker-react npm run test
